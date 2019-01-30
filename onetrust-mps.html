@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MPS Test</title>
+
+    <script>window.console && console.log('**** HTML embedded script - top of head');</script>
+
+    <!------[MPS: Initialize and load JS library]------------------------------------------------------------>
+    <script>
+        var mpscall = {
+            'site': "test-web",      // The site instance name in MPS
+            'path': "test-onetrust",          // Set by CMS
+            'cat': "homepage",       // Set by CMS
+            'type': "",              // Set by CMS
+            'content_id': "",        // Set by CMS
+            'CACHESKIP': "1",        // For testing and debugging. Tells Akamai to pass this call to MPS origin.
+        }
+
+        var mpsopts={
+            'host': "o-stage-mps.nbcuni.com"  // The MPS host to use. Production = mps.nbcuni.com
+        };
+
+        // Set up MPS JS queues to handle any MPS calls that happen before the MPS JS library is loaded,
+        // then load the library.
+        var mps=mps||{};mps._ext=mps._ext||{};mps._adsheld=[];mps._queue=mps._queue||{};mps._queue.mpsloaded=mps._queue.mpsloaded||[];mps._queue.mpsinit=mps._queue.mpsinit||[];mps._queue.gptloaded=mps._queue.gptloaded||[];mps._queue.adload=mps._queue.adload||[];mps._queue.adclone=mps._queue.adclone||[];mps._queue.adview=mps._queue.adview||[];mps._queue.refreshads=mps._queue.refreshads||[];mps.__timer=Date.now || function() { return +new Date; };mps.__intcode="v2";if(typeof mps.getAd!="function")mps.getAd=function(adunit){if(typeof adunit!="string")return false;var slotid="mps-getad-"+adunit.replace(/\W/g,"");if(!mps._ext||!mps._ext.loaded){mps._queue.gptloaded.push(function(){typeof mps._gptfirst=="function"&&mps._gptfirst(adunit,slotid);mps.insertAd("#"+slotid,adunit)});mps._adsheld.push(adunit)}return'<div id="'+slotid+'" class="mps-wrapper" data-mps-fill-slot="'+adunit+'"></div>'};(function(){head=document.head||document.getElementsByTagName("head")[0],mpsload=document.createElement("script");mpsload.src="//"+mpsopts.host+"/fetch/ext/load-"+mpscall.site+".js?nowrite=2";mpsload.id="mps-load";head.insertBefore(mpsload,head.firstChild)})();
+
+    </script>
+    <!------[/MPS: Initialize and load JS library]------------------------------------------------------------>
+
+    <style>
+        body {
+            font-size: 1.5em;
+        }
+        .testad {
+            border: 4px solid rgba(255,170,0,0.7); 
+            text-align: left; 
+            margin: 3px auto; 
+            padding: 3px; 
+            display: inline-block;
+        }
+    </style>
+    
+    <script>window.console && console.log('**** HTML embedded script - bottom of head');</script>
+</head>
+<body>
+    <script>window.console && console.log('**** HTML embedded script - top of body');</script>
+
+    <!--[ad slot]-->
+    <span id="topad" class="testad">
+    </span>
+   
+    <!--[MPS: Request first ad-->
+    <script>
+        // Push any MPS function calls onto the mpsready queue, which gets fired once the MPS JS library
+        // is loaded. If the library is already loaded, a function pushed to the mpsready queue will fire
+        // immediately.
+        // This code should be placed below the ad slot definition so that we can ensure it exists when 
+        // cloneAd() runs.
+        var mps=mps||{}; mps._queue=mps._queue||{}; mps._queue.mpsready=mps._queue.mpsready||[];
+        mps._queue.mpsready.push(function() {
+            window.console && debugmode.log && console.log('**** MPS FINISHED LOADING - calling cloneAd() for #topad');
+            mps.cloneAd('#topad','topbanner');
+            window.console && debugmode.log && console.log('**** MPS FINISHED LOADING - completed cloneAd() for #topad');
+        });    
+    </script>
+    
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum in augue nisi. Curabitur accumsan ex purus, id finibus est mollis ac. Vestibulum ligula felis, volutpat eget ligula eu, faucibus elementum odio. Proin vulputate malesuada lobortis. Praesent ac arcu ac ex rutrum vulputate. Nunc elementum metus diam, eu viverra dolor suscipit sed. Proin aliquet ante dolor. Maecenas ultricies commodo metus, in bibendum ante congue non. Phasellus pulvinar imperdiet consequat. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla ac eros nisl. Aliquam maximus ornare nibh, in tempor erat viverra sed. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+
+    <p>Morbi dictum eleifend tristique. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce auctor tellus libero, sed porta tellus volutpat id. Ut ultricies vehicula tellus non iaculis. Morbi mauris metus, vestibulum vitae leo sit amet, malesuada suscipit dui. In hac habitasse platea dictumst. Vivamus in lacinia odio, at varius diam. Sed vitae purus ultrices, molestie turpis ut, vulputate orci. In ac ultricies urna. Etiam bibendum lacus lectus, posuere viverra sem fringilla ut. Nunc in suscipit massa, eu viverra tellus. Ut mollis dapibus enim vel mollis. Integer sit amet aliquam ipsum, ac tincidunt purus.</p>
+
+    <p>Donec non sollicitudin lacus. Proin hendrerit dolor efficitur felis efficitur consequat. In hac habitasse platea dictumst. Vivamus elementum quam quam, a vestibulum felis vehicula quis. Aliquam pulvinar, leo ac eleifend finibus, mauris metus mollis erat, eu pulvinar nunc nunc vitae lectus. Fusce venenatis vitae ipsum nec suscipit. Suspendisse pharetra congue quam, et tempus lacus gravida a. Maecenas in arcu ac tellus consequat dapibus.</p>
+    
+    <!--[ad slot]-->
+    <span id="bottomad" class="testad">
+    </span>
+
+    <!--[MPS: Request second ad-->
+    <script>
+        var mps=mps||{}; mps._queue=mps._queue||{}; mps._queue.mpsready=mps._queue.mpsready||[];
+        mps._queue.mpsready.push(function() {
+            window.console && debugmode.log && console.log('**** MPS FINISHED LOADING - calling cloneAd() for #bottomad');
+            mps.cloneAd('#bottomad','topbanner');
+            window.console && debugmode.log && console.log('**** MPS FINISHED LOADING - completed cloneAd() for #bottomad');
+        });    
+    </script>
+
+    <script>window.console && console.log('**** HTML embedded script - bottom of body');</script>
+</body>
+</html>
